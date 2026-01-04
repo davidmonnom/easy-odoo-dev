@@ -1,0 +1,103 @@
+{
+  "name": "easy-odoo-dev",
+  "publisher": "davidmonnom",
+  "repository": "https://github.com/davidmonnom/easy-odoo-dev",
+  "displayName": "Easy Odoo Dev",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Testing"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "easy-odoo-dev-container",
+          "title": "Easy Odoo Dev",
+          "icon": "resources/icon.png"
+        }
+      ]
+    },
+    "views": {
+      "easy-odoo-dev-container": [
+        {
+          "type": "webview",
+          "id": "easy-odoo-dev-view",
+          "name": "Easy Odoo Dev",
+          "icon": "resources/icon.png"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "easy-odoo-dev.launch-server",
+        "title": "Start Odoo Server"
+      },
+      {
+        "command": "easy-odoo-dev.debug-server",
+        "title": "Debug Odoo Server"
+      },
+      {
+        "command": "easy-odoo-dev.stop-server",
+        "title": "Stop Odoo Server"
+      },
+      {
+        "command": "easy-odoo-dev.open-config-file",
+        "title": "Open Odoo Configuration File"
+      },
+      {
+        "command": "easy-odoo-dev.drop-current-database",
+        "title": "Drop Current Database"
+      }
+    ],
+    "configuration": {
+      "title": "Odoo",
+      "properties": {
+        "easy-odoo-dev.odoo-bin": {
+          "title": "Odoo Binary",
+          "type": "string",
+          "description": "Path to the Odoo server executable.",
+          "default": ""
+        },
+        "easy-odoo-dev.python-venv": {
+          "title": "Python Virtual Environment",
+          "type": "string",
+          "description": "Path to the Python virtual environment.",
+          "default": ""
+        },
+        "easy-odoo-dev.config-file": {
+          "title": "Configuration File",
+          "type": "string",
+          "description": "Path to the Odoo configuration file.",
+          "default": ""
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src"
+  },
+  "devDependencies": {
+    "@types/ini": "^4.1.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.107.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
+  },
+  "dependencies": {
+    "ini": "^6.0.0"
+  }
+}

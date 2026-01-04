@@ -1,0 +1,153 @@
+body {
+  background-color: transparent;
+}
+
+/* Globals */
+.d-none {
+  display: none !important;
+}
+
+/* Actions */
+.actions-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.start-btn.disabled,
+.stop-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--vscode-panel-background);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  z-index: 10;
+}
+
+/* Main container */
+.setting-section {
+  padding-left: 7px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.setting-list {
+  margin-bottom: 20px;
+}
+
+.setting-section .title-container .title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--vscode-foreground);
+  margin: 0;
+  padding: 0;
+}
+
+.setting-section .title-container .subtitle {
+  font-size: 15px;
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+  margin: 0;
+  padding: 0;
+}
+
+.setting-section .fold-action {
+  padding-top: 6px;
+  font-size: 14px;
+  color: #714b67;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Setting items */
+.setting-container {
+  position: relative;
+  white-space: normal;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.setting-container .content {
+  padding-left: 7px;
+  flex-grow: 1;
+  border-left: 2px solid;
+  border-color: transparent;
+}
+
+.setting-container .content-filled {
+  border-color: #714b67;
+}
+
+.setting-container .content .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-bottom: 5px;
+  font-weight: 600;
+}
+
+.setting-container .content .title .category {
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+}
+
+.setting-container .content .description {
+  margin-top: -2px;
+  user-select: text;
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+}
+
+.setting-input-container {
+  margin-top: 9px;
+  display: flex;
+  align-items: center;
+}
+
+.setting-input-container .setting-option {
+  background-color: var(--vscode-input-background);
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+  white-space: nowrap;
+}
+
+.setting-input-container .setting-option span {
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+}
+
+.setting-input-container input:last-child {
+  flex-grow: 1;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: start;
+}
+
+.fake-checkbox-box {
+  flex-shrink: 0;
+  display: block;
+  height: 18px;
+  width: 18px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  margin-right: 9px;
+  margin-left: 0;
+  padding: 0;
+  background-color: var(--vscode-settings-checkboxBackground) !important;
+  color: var(--vscode-settings-checkboxForeground) !important;
+  border-color: var(--vscode-settings-checkboxBorder) !important;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
