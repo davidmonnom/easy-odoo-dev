@@ -3,6 +3,8 @@ import { getNonce, isServerRunning } from "../utils";
 import { odooDebugSessionId } from "../commands/debug-odoo-server";
 import { odooTaskExecution } from "../commands/launch-odoo-server";
 import { configManager } from "../extension";
+import { loadDatabases } from "../functions/load-databases";
+import { loadAvailableModules } from "../functions/load-available-modules";
 
 export class WebviewProvider implements vscode.WebviewViewProvider {
   private _view?: vscode.WebviewView;
@@ -65,7 +67,7 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
           data: state,
         });
       }
-    }, 1000);
+    }, 500);
   };
 
   private sendSettingValues() {
@@ -73,6 +75,26 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
       this._view.webview.postMessage({
         type: "load-settings",
         data: configManager.settings,
+      });
+    }
+  }
+
+  private async sendDatabaseList() {
+    const database = await loadDatabases();
+    if (this._view) {
+      this._view.webview.postMessage({
+        type: "load-databases",
+        data: database,
+      });
+    }
+  }
+
+  private async loadAvailableModules() {
+    const modules = await loadAvailableModules();
+    if (this._view) {
+      this._view.webview.postMessage({
+        type: "load-available-modules",
+        data: modules,
       });
     }
   }
@@ -128,6 +150,14 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
         this.dropCurrentDatabase();
         break;
       }
+      case "load-databases": {
+        this.sendDatabaseList();
+        break;
+      }
+      case "load-available-modules": {
+        this.loadAvailableModules();
+        break;
+      }
     }
   }
 
@@ -140,12 +170,8 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
 
   private _getHtmlForWebview(webview: vscode.Webview) {
     const nonce = getNonce();
-    const owlUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "lib", "owl.js")
-    );
-    const appUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "app.js")
-    );
+
+    // Css
     const styleResetUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
     );
@@ -154,6 +180,36 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
     );
     const styleAppUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "media", "app.css")
+    );
+
+    // Javascript
+    const owlUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "lib", "owl.js")
+    );
+    const appUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "app.js")
+    );
+    const globalsUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "globals.js")
+    );
+    const inputUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "components", "input.js")
+    );
+    const settingUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this._extensionUri,
+        "media",
+        "components",
+        "setting.js"
+      )
+    );
+    const actionsUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(
+        this._extensionUri,
+        "media",
+        "components",
+        "actions.js"
+      )
     );
 
     return `
@@ -170,6 +226,10 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
 			</head>
 			<body>
 				<script nonce="${nonce}" src="${owlUri}"></script>
+        <script nonce="${nonce}" src="${globalsUri}"></script>
+        <script nonce="${nonce}" src="${inputUri}"></script>
+        <script nonce="${nonce}" src="${settingUri}"></script>
+        <script nonce="${nonce}" src="${actionsUri}"></script>
 				<script nonce="${nonce}" src="${appUri}"></script>
 			</body>
 		</html>`;

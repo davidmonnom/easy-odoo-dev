@@ -1,9 +1,10 @@
 {
   "name": "easy-odoo-dev",
   "publisher": "davidmonnom",
+  "icon": "resources/easy-odoo-dev.png",
   "repository": "https://github.com/davidmonnom/easy-odoo-dev",
   "displayName": "Easy Odoo Dev",
-  "description": "",
+  "description": "This small extension allows you to manage your Odoo configuration file directly from the Visual Studio Code.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.107.0"

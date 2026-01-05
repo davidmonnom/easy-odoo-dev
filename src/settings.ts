@@ -1,3 +1,13 @@
+export type Setting = {
+  title: string;
+  cli: string;
+  file: string;
+  description: string;
+  isBoolean: boolean;
+  value: string | boolean | number;
+  messageKey?: string;
+};
+
 export const settings = {
   server: [
     {
@@ -7,6 +17,7 @@ export const settings = {
       description: "Database(s) used when installing or updating modules.",
       isBoolean: false,
       value: "",
+      messageKey: "load-databases",
     },
     {
       title: "Initialize Modules",
@@ -16,6 +27,7 @@ export const settings = {
         "Comma-separated list of modules to install before running the server",
       isBoolean: false,
       value: "",
+      messageKey: "load-available-modules",
     },
     {
       title: "Update Modules",
@@ -25,6 +37,7 @@ export const settings = {
         "Comma-separated list of modules to update before running the server.",
       isBoolean: false,
       value: "",
+      messageKey: "load-available-modules",
     },
     {
       title: "Reinitialize Modules",
@@ -34,6 +47,7 @@ export const settings = {
         "A comma-separated list of modules to reinitialize before starting the server",
       isBoolean: false,
       value: "",
+      messageKey: "load-available-modules",
     },
     {
       title: "Addons Path",

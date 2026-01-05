@@ -1,21 +1,14 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import { parse, stringify } from "ini";
-import { settings } from "./settings";
+import { Setting, settings } from "./settings";
 
 type ConfigOptions = {
   [key: string]: string | boolean | number;
 };
 
 type SettingDefinition = {
-  [section: string]: {
-    title: string;
-    cli: string;
-    file: string;
-    description: string;
-    isBoolean: boolean;
-    value: string | boolean | number;
-  }[];
+  [section: string]: Setting[];
 };
 
 export class ConfigManager {

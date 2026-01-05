@@ -7,6 +7,35 @@ body {
   display: none !important;
 }
 
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+/* Inputs */
+.setting-input-suggestions {
+  background-color: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 1000;
+}
+
+.setting-input-suggestions div {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.setting-input-suggestions div:hover,
+.setting-input-suggestions div.focused {
+  background-color: var(--vscode-list-hoverBackground);
+}
+
 /* Actions */
 .actions-container {
   display: flex;
@@ -17,7 +46,8 @@ body {
 
 .start-btn.disabled,
 .stop-btn.disabled {
-  opacity: 0.5;
+  opacity: 0.2;
+  pointer-events: none;
   cursor: not-allowed;
 }
 

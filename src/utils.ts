@@ -36,13 +36,18 @@ export const isPortOpen = (port: number, host: string): Promise<boolean> => {
 };
 
 export const dropDatabase = async (name: string): Promise<boolean> => {
-  return await runShellCommand(`dropdb ${name}`);
+  try {
+    await runShellCommand(`dropdb ${name}`);
+    return true;
+  } catch {
+    return false;
+  }
 };
 
-export const runShellCommand = (command: string): Promise<boolean> => {
-  return new Promise<boolean>((resolve, reject) => {
+export const runShellCommand = (command: string): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
     child_process.exec(command, {}, (err, stdout, stderr) =>
-      err ? resolve(false) : resolve(true)
+      !err ? resolve(stdout.toString()) : reject(stderr.toString())
     );
   });
 };
