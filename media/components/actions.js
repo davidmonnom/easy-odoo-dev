@@ -23,18 +23,30 @@ class Actions extends Component {
     vscode.postMessage({ type: "drop-current-database" });
   }
 
+  get startServerLabel() {
+    const state = this.props.serverState;
+    return state === "running" && state !== "debugging" ? "Restart" : "Start";
+  }
+
+  get serverDebugLabel() {
+    const state = this.props.serverState;
+    return state === "debugging" && state !== "running"
+      ? "Restart Debug"
+      : "Debug";
+  }
+
   static template = xml`
     <div>
       <div class="actions-container">
         <button class="start-btn"
           t-on-click="launchOdooServer"
-          t-att-class="{'disabled': this.props.serverState !== 'stopped'}">
-          Start
+          t-att-class="{'disabled': this.props.serverState === 'debugging'}">
+          <t t-esc="this.startServerLabel"/>
         </button>
         <button class="start-btn"
           t-on-click="debugOdooServer"
-          t-att-class="{'disabled': this.props.serverState !== 'stopped'}">
-          Debug
+          t-att-class="{'disabled': this.props.serverState === 'running'}">
+          <t t-esc="this.serverDebugLabel"/>
         </button>
         <button class="stop-btn"
           t-on-click="stopOdooServer"
@@ -44,10 +56,10 @@ class Actions extends Component {
       </div>
       <div class="actions-container">
         <button class="config-btn" t-on-click="openConfigFile">
-          Open Config File
+          Config File
         </button>
         <button class="config-btn" t-on-click="dropCurrentDatabase">
-          Drop Current Database
+          Drop Database
         </button>
       </div>
     </div>

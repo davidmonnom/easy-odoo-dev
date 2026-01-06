@@ -6,6 +6,7 @@ import {
   isServerRunning,
 } from "../utils";
 import { configManager } from "../extension";
+import { stopServer } from "./stop-odoo-server";
 
 export let odooDebugSessionId: string | undefined;
 vscode.debug.onDidStartDebugSession((s) => {
@@ -21,12 +22,16 @@ vscode.debug.onDidTerminateDebugSession((session) => {
 });
 
 export async function debugOdooServer() {
-  const isRunning = await isServerRunning();
-  if (isRunning) {
-    vscode.window.showWarningMessage(
-      "Odoo server is already running. Please stop it before starting a debugging session."
-    );
-    return;
+  if (await isServerRunning()) {
+    await stopServer();
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    if (await isServerRunning()) {
+      vscode.window.showWarningMessage(
+        "Impossible to start Odoo server because other instance cannot be stopped."
+      );
+      return;
+    }
   }
 
   vscode.window.showInformationMessage(
