@@ -1,7 +1,22 @@
 import * as vscode from "vscode";
 import * as net from "net";
 import * as child_process from "child_process";
+import * as os from "os";
 import { configManager } from "./extension";
+
+export function getLocalIPAddress(): string | undefined {
+  const interfaces = os.networkInterfaces();
+
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name] || []) {
+      if (iface.family === "IPv4" && !iface.internal) {
+        return iface.address;
+      }
+    }
+  }
+
+  return undefined;
+}
 
 export const getNonce = () => {
   let text = "";

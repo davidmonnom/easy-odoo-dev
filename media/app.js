@@ -103,6 +103,17 @@ class App extends Component {
     return false;
   }
 
+  get noMatchAvailable() {
+    for (const settings of Object.values(this.state.settings)) {
+      for (const setting of settings) {
+        if (this.matchSearch(setting)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   static template = xml`
     <div class="w-100 h-100 overflow-hidden">
       <div class="sticky-header">
@@ -136,6 +147,9 @@ class App extends Component {
             </t>
           </div>
         </t>
+        <div t-if="noMatchAvailable" class="text-center">
+          <p>No matching settings found.</p>
+        </div>
       </div>
     </div>
   `;

@@ -15,6 +15,10 @@ body {
   position: absolute;
 }
 
+.text-center {
+  text-align: center;
+}
+
 /* Inputs */
 .setting-input-suggestions {
   background-color: var(--vscode-input-background);

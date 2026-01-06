@@ -23,6 +23,10 @@ class Actions extends Component {
     vscode.postMessage({ type: "drop-current-database" });
   }
 
+  openInBrowser() {
+    vscode.postMessage({ type: "open-in-browser" });
+  }
+
   get startServerLabel() {
     const state = this.props.serverState;
     return state === "running" && state !== "debugging" ? "Restart" : "Start";
@@ -48,15 +52,22 @@ class Actions extends Component {
           t-att-class="{'disabled': this.props.serverState === 'running'}">
           <t t-esc="this.serverDebugLabel"/>
         </button>
+      </div>
+      <div class="actions-container">
         <button class="stop-btn"
           t-on-click="stopOdooServer"
           t-att-class="{'disabled': this.props.serverState === 'stopped'}">
           Stop
         </button>
+        <button class="start-btn"
+          t-on-click="openInBrowser"
+          t-att-class="{'disabled': this.props.serverState === 'stopped'}">
+          Open in Browser
+        </button>
       </div>
       <div class="actions-container">
         <button class="config-btn" t-on-click="openConfigFile">
-          Config File
+          Open config
         </button>
         <button class="config-btn" t-on-click="dropCurrentDatabase">
           Drop Database

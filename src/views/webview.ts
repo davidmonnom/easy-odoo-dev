@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getNonce, isServerRunning } from "../utils";
+import { getLocalIPAddress, getNonce, isServerRunning } from "../utils";
 import { odooDebugSessionId } from "../commands/debug-odoo-server";
 import { odooTaskExecution } from "../commands/launch-odoo-server";
 import { configManager } from "../extension";
@@ -119,6 +119,14 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
     vscode.commands.executeCommand("easy-odoo-dev.drop-current-database");
   }
 
+  private openInExternalBrowser() {
+    const http = configManager.settings.http;
+    const port = http.find((s) => s.file === "http_port")?.value || "8069";
+    const localhostIp = getLocalIPAddress() || "127.0.0.1";
+    const url = `http://${localhostIp}:${port}`;
+    vscode.env.openExternal(vscode.Uri.parse(url));
+  }
+
   private async handleMessage(data: any) {
     switch (data.type) {
       case "save-settings": {
@@ -156,6 +164,10 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
       }
       case "load-available-modules": {
         this.loadAvailableModules();
+        break;
+      }
+      case "open-in-browser": {
+        this.openInExternalBrowser();
         break;
       }
     }
