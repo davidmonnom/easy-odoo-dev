@@ -44,22 +44,53 @@ body {
 .actions-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 5px;
+  margin-bottom: 5px;
 }
 
-.start-btn.disabled,
-.stop-btn.disabled {
+.actions-container button {
+  aspect-ratio: 1 / 1;
+  padding: 5px;
+  width: auto;
+}
+
+.actions-container button.disabled {
   opacity: 0.2;
   pointer-events: none;
   cursor: not-allowed;
+}
+
+.actions-container .tooltip-container{
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor: pointer;
+}
+
+.actions-container .tooltip-text {
+  visibility: hidden;
+  background-color: black;
+  background-color: var(--vscode-panel-background);
+  color: var(--vscode-foreground);
+  box-shadow: var(--vscode-panel-shadow);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  white-space: nowrap;
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.actions-container .tooltip-container:hover .tooltip-text {
+  visibility: visible;
 }
 
 .sticky-header {
   position: sticky;
   top: 0;
   background-color: var(--vscode-panel-background);
-  padding-top: 10px;
   padding-bottom: 10px;
   z-index: 10;
 }

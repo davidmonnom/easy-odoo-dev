@@ -4,6 +4,12 @@ All notable changes to the "easy-odoo-dev" extension will be documented in this 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.0.0] 2026-01-10
+
+- Bumping version to 1.0.0 for first stable release.
+- Add status bar items to start Odoo server in normal and debug modes.
+- Improve buttons displayed on the main extension view.
+
 ## [0.0.2] 2026-01-06
 
 - Add restart button in debug and normal modes.

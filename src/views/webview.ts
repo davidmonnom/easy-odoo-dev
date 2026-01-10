@@ -182,54 +182,39 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
 
   private _getHtmlForWebview(webview: vscode.Webview) {
     const nonce = getNonce();
+    const buildUri = (paths: string[]) => {
+      return webview.asWebviewUri(
+        vscode.Uri.joinPath(this._extensionUri, ...paths)
+      );
+    };
 
     // Css
-    const styleResetUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
-    );
-    const styleVSCodeUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
-    );
-    const styleAppUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "app.css")
-    );
+    const styleResetUri = buildUri(["media", "reset.css"]);
+    const styleVSCodeUri = buildUri(["media", "vscode.css"]);
+    const styleAppUri = buildUri(["media", "app.css"]);
 
     // Javascript
-    const owlUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "lib", "owl.js")
-    );
-    const appUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "app.js")
-    );
-    const globalsUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "globals.js")
-    );
-    const inputUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "components", "input.js")
-    );
-    const settingUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "media",
-        "components",
-        "setting.js"
-      )
-    );
-    const actionsUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(
-        this._extensionUri,
-        "media",
-        "components",
-        "actions.js"
-      )
-    );
+    const owlUri = buildUri(["media", "lib", "owl.js"]);
+    const appUri = buildUri(["media", "app.js"]);
+    const globalsUri = buildUri(["media", "globals.js"]);
+    const inputUri = buildUri(["media", "components", "input.js"]);
+    const settingUri = buildUri(["media", "components", "setting.js"]);
+    const actionsUri = buildUri(["media", "components", "actions.js"]);
+
+    // Icons
+    const startIconUri = buildUri(["media", "icons", "start-white.png"]);
+    const debugIconUri = buildUri(["media", "icons", "debug-white.png"]);
+    const stopIconUri = buildUri(["media", "icons", "stop-white.png"]);
+    const databaseIconUri = buildUri(["media", "icons", "database-white.png"]);
+    const configIconUri = buildUri(["media", "icons", "config-white.png"]);
+    const browserIconUri = buildUri(["media", "icons", "browser-white.png"]);
 
     return `
 		<!DOCTYPE html>
 		<html lang="en">
 			<head>
 				<!-- Unsafe eval is needed for owl.js -->
-				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}' 'unsafe-eval';">
+				<meta http-equiv="Content-Security-Policy" 'none'; style-src ${webview.cspSource}; script-src 'nonce-${nonce}' 'unsafe-eval';">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="${styleResetUri}" rel="stylesheet">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
@@ -237,6 +222,16 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
 				<title>Easy Odoo Dev</title>
 			</head>
 			<body>
+        <script nonce="${nonce}">
+          globalThis.icons = {
+            startIconUri: "${startIconUri}",
+            debugIconUri: "${debugIconUri}",
+            stopIconUri: "${stopIconUri}",
+            databaseIconUri: "${databaseIconUri}",
+            configIconUri: "${configIconUri}",
+            browserIconUri: "${browserIconUri}",
+          };
+        </script>
 				<script nonce="${nonce}" src="${owlUri}"></script>
         <script nonce="${nonce}" src="${globalsUri}"></script>
         <script nonce="${nonce}" src="${inputUri}"></script>

@@ -1,7 +1,40 @@
+class ActionButton extends Component {
+  static props = {
+    iconUri: String,
+    tooltip: String,
+    onClick: Function,
+    disabled: Boolean,
+  };
+
+  setup() {
+    super.setup();
+  }
+
+  static template = xml`
+    <div class="tooltip-container">
+      <button t-att-class="{'disabled': this.props.disabled}" t-on-click="this.props.onClick">
+        <img t-att-src="this.props.iconUri" class="btn-icon" height="14" width="14"/>
+      </button>
+      <div class="tooltip-text" t-esc="this.props.tooltip"/>
+    </div>
+  `;
+}
+
 class Actions extends Component {
+  static components = { ActionButton };
   static props = {
     serverState: String,
   };
+
+  setup() {
+    super.setup();
+    this.startIconUri = globalThis.icons.startIconUri;
+    this.debugIconUri = globalThis.icons.debugIconUri;
+    this.stopIconUri = globalThis.icons.stopIconUri;
+    this.databaseIconUri = globalThis.icons.databaseIconUri;
+    this.configIconUri = globalThis.icons.configIconUri;
+    this.browserIconUri = globalThis.icons.browserIconUri;
+  }
 
   launchOdooServer() {
     vscode.postMessage({ type: "launch-odoo-server" });
@@ -40,39 +73,35 @@ class Actions extends Component {
   }
 
   static template = xml`
-    <div>
-      <div class="actions-container">
-        <button class="start-btn"
-          t-on-click="launchOdooServer"
-          t-att-class="{'disabled': this.props.serverState === 'debugging'}">
-          <t t-esc="this.startServerLabel"/>
-        </button>
-        <button class="start-btn"
-          t-on-click="debugOdooServer"
-          t-att-class="{'disabled': this.props.serverState === 'running'}">
-          <t t-esc="this.serverDebugLabel"/>
-        </button>
-      </div>
-      <div class="actions-container">
-        <button class="stop-btn"
-          t-on-click="stopOdooServer"
-          t-att-class="{'disabled': this.props.serverState === 'stopped'}">
-          Stop
-        </button>
-        <button class="start-btn"
-          t-on-click="openInBrowser"
-          t-att-class="{'disabled': this.props.serverState === 'stopped'}">
-          Open in Browser
-        </button>
-      </div>
-      <div class="actions-container">
-        <button class="config-btn" t-on-click="openConfigFile">
-          Open config
-        </button>
-        <button class="config-btn" t-on-click="dropCurrentDatabase">
-          Drop Database
-        </button>
-      </div>
+    <div class="actions-container">
+      <ActionButton
+        iconUri="this.startIconUri"
+        onClick="this.launchOdooServer"
+        tooltip="this.startServerLabel"
+        disabled="this.props.serverState === 'debugging'"/>
+      <ActionButton
+        iconUri="this.debugIconUri"
+        onClick="this.debugOdooServer"
+        tooltip="this.serverDebugLabel"
+        disabled="this.props.serverState === 'running'"/>
+      <ActionButton
+        iconUri="this.stopIconUri"
+        onClick="this.stopOdooServer"
+        tooltip="'Stop Server'"
+        disabled="this.props.serverState === 'stopped'"/>
+      <ActionButton
+        iconUri="this.browserIconUri"
+        onClick="this.openInBrowser"
+        tooltip="'Open in Browser'"
+        disabled="this.props.serverState === 'stopped'"/>
+      <ActionButton
+        iconUri="this.databaseIconUri"
+        tooltip="'Drop Current Database'"
+        onClick="this.dropCurrentDatabase"/>
+      <ActionButton
+        iconUri="this.configIconUri"
+        tooltip="'Open Config File'"
+        onClick="this.openConfigFile"/>
     </div>
   `;
 }

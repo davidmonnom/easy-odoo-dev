@@ -57,5 +57,6 @@ export async function stopOdooServer() {
     odooTaskExecution.terminate();
     odooTaskExecution = undefined;
     vscode.window.showInformationMessage("Odoo server has been stopped.");
+    return true;
   }
 }
