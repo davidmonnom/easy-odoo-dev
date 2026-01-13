@@ -5,7 +5,7 @@ import {
   getPythonVenvPath,
   isServerRunning,
 } from "../utils";
-import { configManager } from "../extension";
+import { configManager, statusBarItems } from "../extension";
 import { stopServer } from "./stop-odoo-server";
 
 export let odooDebugSessionId: string | undefined;
@@ -59,20 +59,31 @@ export async function debugOdooServer() {
   if (!ok) {
     vscode.window.showErrorMessage("Failed to start Python debugging session.");
   }
+  // Update status bar items
+  if (statusBarItems.debug) {
+    statusBarItems.debug.text = `$(bug) EOD: Restart Debug`;
+  }
+
+  if (statusBarItems.stop) {
+    statusBarItems.stop.show();
+    statusBarItems.stop.text = `$(stop) EOD: Stop Debug`;
+  }
 }
 
 export async function stopOdooDebugSession() {
+  if (statusBarItems.debug) {
+    statusBarItems.debug.text = `$(bug) EOD: Debug Server`;
+  }
+
+  if (statusBarItems.stop) {
+    statusBarItems.stop.hide();
+  }
+
   if (!odooDebugSessionId) {
     return false;
   }
 
-  const active = vscode.debug.activeDebugSession;
-  if (active && active.id === odooDebugSessionId) {
-    await vscode.commands.executeCommand("workbench.action.debug.stop");
-    return true;
-  }
-
-  // Fallback: stop whatever debug session is active
   await vscode.commands.executeCommand("workbench.action.debug.stop");
+  odooDebugSessionId = undefined;
   return true;
 }

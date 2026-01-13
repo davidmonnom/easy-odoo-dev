@@ -4,7 +4,7 @@ import {
   getPythonVenvPath,
   isServerRunning,
 } from "../utils";
-import { configManager } from "../extension";
+import { configManager, statusBarItems } from "../extension";
 import { stopServer } from "./stop-odoo-server";
 
 export let odooTaskExecution: vscode.TaskExecution | undefined;
@@ -50,9 +50,25 @@ export async function launchOdooServer() {
   };
 
   odooTaskExecution = await vscode.tasks.executeTask(task);
+  if (statusBarItems.start) {
+    statusBarItems.start.text = `$(server) EOD: Restart Server`;
+  }
+
+  if (statusBarItems.stop) {
+    statusBarItems.stop.show();
+    statusBarItems.stop.text = `$(stop) EOD: Stop Server`;
+  }
 }
 
 export async function stopOdooServer() {
+  if (statusBarItems.start) {
+    statusBarItems.start.text = `$(server) EOD: Start Server`;
+  }
+
+  if (statusBarItems.stop) {
+    statusBarItems.stop.hide();
+  }
+
   if (odooTaskExecution) {
     odooTaskExecution.terminate();
     odooTaskExecution = undefined;

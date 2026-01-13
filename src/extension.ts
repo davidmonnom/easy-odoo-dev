@@ -8,6 +8,12 @@ import { stopServer } from "./commands/stop-odoo-server";
 import { dropCurrentDatabase } from "./commands/drop-current-database";
 
 export const configManager = new ConfigManager();
+export const statusBarItems = {
+  start: null as vscode.StatusBarItem | null,
+  debug: null as vscode.StatusBarItem | null,
+  stop: null as vscode.StatusBarItem | null,
+};
+
 export function activate(context: vscode.ExtensionContext) {
   // Watchers
   const configPath = configManager.getConfigPath();
@@ -23,6 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
+  statusBarItems.start = statusBarItemStart;
   statusBarItemStart.command = "easy-odoo-dev.launch-server";
   statusBarItemStart.text = `$(server) EOD: Start Server`;
   statusBarItemStart.tooltip = "Launch Odoo Server";
@@ -32,6 +39,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
+  statusBarItems.debug = statusBarItemDebug;
   statusBarItemDebug.command = "easy-odoo-dev.debug-server";
   statusBarItemDebug.text = `$(bug) EOD: Debug Server`;
   statusBarItemDebug.tooltip = "Debug Odoo Server";
@@ -41,10 +49,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
+  statusBarItems.stop = statusBarItem;
   statusBarItem.command = "easy-odoo-dev.stop-server";
   statusBarItem.text = `$(stop) EOD: Stop Server`;
   statusBarItem.tooltip = "Stop Odoo Server";
-  statusBarItem.show();
 
   // Register commands
   const launchServerCommand = vscode.commands.registerCommand(

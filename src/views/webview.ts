@@ -67,7 +67,7 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
           data: state,
         });
       }
-    }, 500);
+    }, 200);
   };
 
   private sendSettingValues() {
@@ -208,6 +208,7 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
     const databaseIconUri = buildUri(["media", "icons", "database-white.png"]);
     const configIconUri = buildUri(["media", "icons", "config-white.png"]);
     const browserIconUri = buildUri(["media", "icons", "browser-white.png"]);
+    const restartIconUri = buildUri(["media", "icons", "restart-white.png"]);
 
     return `
 		<!DOCTYPE html>
@@ -230,6 +231,7 @@ export class WebviewProvider implements vscode.WebviewViewProvider {
             databaseIconUri: "${databaseIconUri}",
             configIconUri: "${configIconUri}",
             browserIconUri: "${browserIconUri}",
+            restartIconUri: "${restartIconUri}",
           };
         </script>
 				<script nonce="${nonce}" src="${owlUri}"></script>

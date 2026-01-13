@@ -12,6 +12,16 @@ A short description of each option is displayed directly in VSC. For more inform
 
 Funny point this extension is partially developed using Odoo OWL itself! 🎉
 
+## Features
+
+- Edit all options available in the Odoo CLI.
+- Launch an Odoo server.
+- Launch an Odoo server in debugging mode (requires debugpy).
+- Open the config directly.
+- Drop the current database.
+
+Please note that if you edit the Odoo config file directly and add it to the extension, the changes will only take effect after reloading the extension. If the settings are edited in the extension without reloading, they will override the changes.
+
 ## Settings
 
 - Config-file: Path to your Odoo configuration file (odoo.conf). (required)
@@ -22,15 +32,7 @@ Please not that to be able to launch the Odoo server from the extension, you nee
 
 Config-file is required for all the features of the extension.
 
-## Features
-
-- Edit all options available in the Odoo CLI.
-- Launch an Odoo server.
-- Launch an Odoo server in debugging mode (requires debugpy).
-- Open the config directly.
-- Drop the current database.
-
-Please note that if you edit the Odoo config file directly and add it to the extension, the changes will only take effect after reloading the extension. If the settings are edited in the extension without reloading, they will override the changes.
+![Easy Odoo Dev Settings](/example/settings.png)
 
 ## License
 

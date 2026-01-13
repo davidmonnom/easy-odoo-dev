@@ -34,6 +34,7 @@ class Actions extends Component {
     this.databaseIconUri = globalThis.icons.databaseIconUri;
     this.configIconUri = globalThis.icons.configIconUri;
     this.browserIconUri = globalThis.icons.browserIconUri;
+    this.restartIconUri = globalThis.icons.restartIconUri;
   }
 
   launchOdooServer() {
@@ -75,12 +76,12 @@ class Actions extends Component {
   static template = xml`
     <div class="actions-container">
       <ActionButton
-        iconUri="this.startIconUri"
+        iconUri="this.props.serverState === 'running' ? this.restartIconUri : this.startIconUri"
         onClick="this.launchOdooServer"
         tooltip="this.startServerLabel"
         disabled="this.props.serverState === 'debugging'"/>
       <ActionButton
-        iconUri="this.debugIconUri"
+        iconUri="this.props.serverState === 'debugging' ? this.restartIconUri : this.debugIconUri"
         onClick="this.debugOdooServer"
         tooltip="this.serverDebugLabel"
         disabled="this.props.serverState === 'running'"/>
